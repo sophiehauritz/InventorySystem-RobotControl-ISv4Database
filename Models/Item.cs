@@ -1,25 +1,19 @@
+using System;
+
 namespace InventorySystem.Models
 {
-    // Grundlæggende klasse for et produkt i lageret
-    public class Item
+    // Base type for all items
+    public abstract class Item
     {
-        // Navnet på varen
-        public string Name { get; set; }
+        public string Name { get; }
+        public double Price { get; }   // price per unit (or per kg for bulk)
 
-        // Pris pr. enhed (fx pr. stk. eller pr. kg)
-        public double PricePerUnit { get; set; }
-
-        // Constructor til at oprette en vare
-        public Item(string name, double pricePerUnit)
+        protected Item(string name, double price)
         {
-            Name = name;
-            PricePerUnit = pricePerUnit;
+            Name  = name ?? throw new ArgumentNullException(nameof(name));
+            Price = price;
         }
 
-        // Returnerer en tekst med varens oplysninger
-        public override string ToString()
-        {
-            return $"{Name} ({PricePerUnit} DKK/unit)";
-        }
+        public override string ToString() => $"{Name} ({Price:0.##})";
     }
 }

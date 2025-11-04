@@ -9,87 +9,104 @@
     Title="InventorySystem"
     Width="900" Height="580">
 
-  <!-- Hovedlayout: topbar + indhold i to kolonner -->
-  <Grid RowDefinitions="Auto,*" ColumnDefinitions="*,*" x:DataType="vm:MainWindowViewModel">
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
 
-    <!-- Topbar -->
-    <DockPanel Grid.Row="0" Grid.ColumnSpan="2" Margin="12">
-      <!-- Højre: total omsætning -->
-      <TextBlock
-        DockPanel.Dock="Right"
-        VerticalAlignment="Center"
-        FontWeight="SemiBold"
-        Text="{Binding TotalRevenue, StringFormat=Total revenue: {0:F2} DKK}"/>
+    <Grid RowDefinitions="Auto,*" ColumnDefinitions="*,*">
 
-      <!-- Venstre: tilføj ordre + processér næste -->
-      <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" Spacing="8">
-        <!-- Vælg vare fra katalog -->
-        <ComboBox
-          Width="220"
-          ItemsSource="{Binding CatalogItems}"
-          SelectedItem="{Binding SelectedItem}"
-          PlaceholderText="Select item">
-          <ComboBox.ItemTemplate>
-            <DataTemplate>
-              <TextBlock Text="{Binding Name}" />
-            </DataTemplate>
-          </ComboBox.ItemTemplate>
-        </ComboBox>
+        <!-- Toolbar -->
+        <DockPanel Grid.Row="0" Grid.ColumnSpan="2" Margin="12" LastChildFill="False">
 
-        <!-- Antal -->
-        <TextBox
-          Width="80"
-          Text="{Binding NewQuantity, UpdateSourceTrigger=PropertyChanged}"
-          Watermark="Qty" />
+            <!-- Total revenue -->
+            <TextBlock
+                DockPanel.Dock="Right"
+                VerticalAlignment="Center"
+                FontWeight="SemiBold"
+                Text="{Binding TotalRevenue, StringFormat=Total revenue: {0:N2} DKK}"/>
 
-        <!-- Tilføj til kø -->
-        <Button
-          Content="Add order"
-          Command="{Binding AddOrderCommand}"
-          Padding="12,6" />
+            <!-- Controls -->
+            <StackPanel Orientation="Horizontal" Spacing="8">
 
-        <!-- Processér næste ordre -->
-        <Button
-          Content="Process next order"
-          Command="{Binding ProcessNextCommand}"
-          Padding="12,6"
-          MinWidth="160" />
-      </StackPanel>
-    </DockPanel>
+                <!-- Item selector -->
+                <ComboBox
+                    Width="220"
+                    ItemsSource="{Binding CatalogItems}"
+                    SelectedItem="{Binding SelectedItem}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
 
-    <!-- Venstre: Queued orders -->
-    <Border Grid.Row="1" Grid.Column="0" Margin="12" Padding="8" BorderThickness="1" BorderBrush="Gray">
-      <Grid RowDefinitions="Auto,*">
-        <TextBlock Text="Queued orders" FontSize="16" FontWeight="SemiBold" Margin="2,0,0,6"/>
-        <DataGrid
-          Grid.Row="1"
-          ItemsSource="{Binding QueuedOrders}"
-          AutoGenerateColumns="False"
-          IsReadOnly="True">
-          <DataGrid.Columns>
-            <DataGridTextColumn Header="Item" Binding="{Binding Item.Name}" Width="*"/>
-            <DataGridTextColumn Header="Qty"  Binding="{Binding Quantity}"  Width="100"/>
-          </DataGrid.Columns>
-        </DataGrid>
-      </Grid>
-    </Border>
+                <!-- Quantity -->
+                <TextBox
+                    Width="80"
+                    Text="{Binding NewQuantity}"
+                    Watermark="Qty" />
 
-    <!-- Højre: Processed orders -->
-    <Border Grid.Row="1" Grid.Column="1" Margin="12" Padding="8" BorderThickness="1" BorderBrush="Gray">
-      <Grid RowDefinitions="Auto,*">
-        <TextBlock Text="Processed orders" FontSize="16" FontWeight="SemiBold" Margin="2,0,0,6"/>
-        <DataGrid
-          Grid.Row="1"
-          ItemsSource="{Binding ProcessedOrders}"
-          AutoGenerateColumns="False"
-          IsReadOnly="True">
-          <DataGrid.Columns>
-            <DataGridTextColumn Header="Item" Binding="{Binding Item.Name}" Width="*"/>
-            <DataGridTextColumn Header="Qty"  Binding="{Binding Quantity}"  Width="100"/>
-          </DataGrid.Columns>
-        </DataGrid>
-      </Grid>
-    </Border>
+                <!-- Add -->
+                <Button
+                    Content="Add order"
+                    Command="{Binding AddOrderCommand}"
+                    Padding="12,6" />
 
-  </Grid>
+                <!-- Process next -->
+                <Button
+                    Content="Process next order"
+                    Command="{Binding ProcessNextCommand}"
+                    Padding="12,6"
+                    MinWidth="160" />
+            </StackPanel>
+        </DockPanel>
+
+        <!-- Queued orders -->
+        <Border Grid.Row="1" Grid.Column="0" Margin="12" Padding="8" BorderThickness="1" BorderBrush="Gray">
+            <Grid RowDefinitions="Auto,*">
+                <TextBlock Text="Queued orders" FontSize="16" FontWeight="SemiBold" Margin="4"/>
+                <DataGrid
+                    Grid.Row="1"
+                    ItemsSource="{Binding QueuedOrders}"
+                    AutoGenerateColumns="False"
+                    IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <!-- Use a template column to keep Rider quiet but still bind to Item.Name -->
+                        <DataGridTemplateColumn Header="Item" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Item.Name}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Qty" Binding="{Binding Quantity}" Width="80"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+
+        <!-- Processed orders -->
+        <Border Grid.Row="1" Grid.Column="1" Margin="12" Padding="8" BorderThickness="1" BorderBrush="Gray">
+            <Grid RowDefinitions="Auto,*">
+                <TextBlock Text="Processed orders" FontSize="16" FontWeight="SemiBold" Margin="4"/>
+                <DataGrid
+                    Grid.Row="1"
+                    ItemsSource="{Binding ProcessedOrders}"
+                    AutoGenerateColumns="False"
+                    IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="Item" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Item.Name}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Qty" Binding="{Binding Quantity}" Width="80"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+
+    </Grid>
 </Window>

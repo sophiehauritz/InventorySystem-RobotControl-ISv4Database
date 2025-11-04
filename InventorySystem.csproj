@@ -1,23 +1,34 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <TargetFramework>net9.0</TargetFramework>
         <Nullable>enable</Nullable>
-        <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
-        <ApplicationManifest>app.manifest</ApplicationManifest>
-        <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UseWPF>false</UseWPF>
+        <UseWindowsForms>false</UseWindowsForms>
+        <AvaloniaUseCompiler>true</AvaloniaUseCompiler>
     </PropertyGroup>
 
+    <!-- Windows only: include app.manifest. macOS/Linux will ignore this -->
+    <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+    </PropertyGroup>
+
+    <!-- Packages (keep these or merge with yours) -->
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="11.3.6"/>
-        <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.3.6" />
-        <PackageReference Include="Avalonia.Desktop" Version="11.3.6"/>
-        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.6"/>
-        <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.6"/>
-        <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-        <PackageReference Include="Avalonia.Diagnostics" Version="11.3.6">
-            <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
-            <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
-        </PackageReference>
+        <PackageReference Include="Avalonia" Version="11.0.10" />
+        <PackageReference Include="Avalonia.Desktop" Version="11.0.10" />
+        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.10" />
+        <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.10" />
+
+        <!-- If you're using MVVM Toolkit; OK to remove if not -->
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
+
+        <!-- EF Core + MySQL provider (adjust if you already installed other versions) -->
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
+        <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
     </ItemGroup>
+
 </Project>
+

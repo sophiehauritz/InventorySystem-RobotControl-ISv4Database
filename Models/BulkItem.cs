@@ -1,22 +1,16 @@
+using System;
+
 namespace InventorySystem.Models
 {
-    // Klasse for varer der måles i vægt eller volumen (f.eks. kg, liter)
-    public class BulkItem : Item
+    // Example of a bulk item (priced per kg, meter, etc.)
+    public sealed class BulkItem : Item
     {
-        // Måleenhed (fx "kg", "liter")
-        public string MeasurementUnit { get; set; }
+        public double WeightPerUnit { get; } // if you need it for calc/display
 
-        // Constructor som bruger base-klassen (Item)
-        public BulkItem(string name, double pricePerUnit, string measurementUnit)
-            : base(name, pricePerUnit)
+        public BulkItem(string name, double pricePerKg, double weightPerUnit)
+            : base(name, pricePerKg)
         {
-            MeasurementUnit = measurementUnit;
-        }
-
-        // Overskriver ToString for at inkludere måleenheden
-        public override string ToString()
-        {
-            return $"{Name} ({PricePerUnit} DKK/{MeasurementUnit})";
+            WeightPerUnit = weightPerUnit;
         }
     }
 }

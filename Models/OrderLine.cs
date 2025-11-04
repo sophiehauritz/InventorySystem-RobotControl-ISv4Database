@@ -1,31 +1,23 @@
+using System;
+
 namespace InventorySystem.Models
 {
-    // Klasse der repræsenterer én varelinje i en ordre
-    public class OrderLine
+    /// <summary>
+    /// One line in an order: a chosen Item and how many units of it.
+    /// </summary>
+    public sealed class OrderLine
     {
-        // Referencerer varen (kan være UnitItem eller BulkItem)
-        public Item Item { get; set; }
+        public Item Item { get; }
+        public double Quantity { get; }
 
-        // Antal af varen der bestilles
-        public double Quantity { get; set; }
+        public double LineTotal => Item.Price * Quantity;
 
-        // Constructor
         public OrderLine(Item item, double quantity)
         {
-            Item = item;
+            Item = item ?? throw new ArgumentNullException(nameof(item));
             Quantity = quantity;
         }
 
-        // Beregner totalpris for denne ordrelinje
-        public double TotalPrice()
-        {
-            return Item.PricePerUnit * Quantity;
-        }
-
-        // Returnerer en tekst med information om linjen
-        public override string ToString()
-        {
-            return $"{Item.Name} x {Quantity} → {TotalPrice()} DKK";
-        }
+        public override string ToString() => $"{Quantity} x {Item.Name}";
     }
 }
