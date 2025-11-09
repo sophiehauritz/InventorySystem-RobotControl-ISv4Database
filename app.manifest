@@ -10,7 +10,6 @@
         </application>
     </compatibility>
 
-    <!-- Optional: per-monitor DPI awareness on Windows -->
     <asmv3:application xmlns:asmv3="urn:schemas-microsoft-com:asm.v3">
         <asmv3:windowsSettings xmlns:ws="http://schemas.microsoft.com/SMI/2016/WindowsSettings">
             <ws:dpiAwareness>PerMonitorV2</ws:dpiAwareness>
