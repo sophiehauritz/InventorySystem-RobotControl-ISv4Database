@@ -4,19 +4,14 @@ using System.Text;
 
 namespace InventorySystem.Models
 {
-    /// <summary>
-    /// Minimal UR client compatible with MainWindowViewModel:
-    /// - SendUrscript(string)
-    /// - BuildPickToShipmentScript(int)
-    /// </summary>
     public class Robot
     {
-        // ---- Connection ----
-        public const int UrsPort       = 30002; // URScript (secondary)
+        // Connection
+        public const int UrsPort       = 30002; // URScript
         public const int DashboardPort = 29999; // Dashboard
         public string IpAddress { get; set; } = "127.0.0.1";
 
-        // ---- Grid calibration (all meters unless marked mm) ----
+        // Grid calibration (all meters unless marked mm)
         public double Pitch   { get; set; } = 0.10;  // spacing between A/B/C
         public double RowY    { get; set; } = 0.10;  // Y of the bin row
         public double Sx      { get; set; } = 0.30;  // shipment box X
@@ -35,7 +30,7 @@ namespace InventorySystem.Models
         public double OffsetXmm { get; set; } = 0;   // fine nudge (mm)
         public double OffsetYmm { get; set; } = 0;   // fine nudge (mm)
 
-        // ---------- Public API used by your ViewModel ----------
+        // Public API used by your ViewModel
 
         public void SendUrscript(string urs)
         {
@@ -107,7 +102,7 @@ move_item_to_shipment_box()
             return script;
         }
 
-        // ---------- Internals ----------
+        // Internals
         private void SendString(int port, string message)
         {
             using var client = new TcpClient(IpAddress, port);
