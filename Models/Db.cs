@@ -7,12 +7,9 @@ namespace InventorySystem.Data
 {
     public static class Db
     {
-        // Reuse the simple connection string we already use
         private const string Cs = "Server=127.0.0.1;Port=3306;Database=inventory;User ID=root;";
 
-        /// <summary>
-        /// Loads items from MariaDB and returns UnitItem instances.
-        /// </summary>
+        // Loads items from MariaDB and returns UnitItem instances.
         public static async Task<List<UnitItem>> LoadItemsAsync()
         {
             var list = new List<UnitItem>();
