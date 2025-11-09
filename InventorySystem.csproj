@@ -15,17 +15,16 @@
         <ApplicationManifest>app.manifest</ApplicationManifest>
     </PropertyGroup>
 
-    <!-- Packages (keep these or merge with yours) -->
+    <!-- Packages -->
     <ItemGroup>
         <PackageReference Include="Avalonia" Version="11.0.10" />
         <PackageReference Include="Avalonia.Desktop" Version="11.0.10" />
         <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.10" />
         <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.10" />
 
-        <!-- If you're using MVVM Toolkit; OK to remove if not -->
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
 
-        <!-- EF Core + MySQL provider (adjust if you already installed other versions) -->
+        <!-- EF Core + MySQL provider -->
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
         <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
     </ItemGroup>
