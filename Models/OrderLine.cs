@@ -2,9 +2,7 @@ using System;
 
 namespace InventorySystem.Models
 {
-    /// <summary>
-    /// One line in an order: a chosen Item and how many units of it.
-    /// </summary>
+    // One line in an order: a chosen Item and how many units of it.
     public sealed class OrderLine
     {
         public Item Item { get; }
